@@ -1,55 +1,32 @@
-class ListNode:
-    def __init__(self,val: int):
-        self.val= val
-        self.next= None
-
 class MyCircularQueue:
+
     def __init__(self, k: int):
-        self.head= None
-        self.tail= None
-        self.k=k
-        self.size= 0
+        self.curr= deque()
+        self.k= k
 
     def enQueue(self, value: int) -> bool:
-        if self.isFull():
+        if len(self.curr)==self.k:
             return False
-        new_node= ListNode(value)
-        if self.isEmpty():
-            self.head= self.tail= new_node
-            new_node.next= new_node
-        else:
-            self.tail.next= new_node
-            new_node.next= self.head
-            self.tail= new_node
-        self.size+=1
+        self.curr.append(value)
         return True
 
     def deQueue(self) -> bool:
-        if self.isEmpty():
+        if len(self.curr)==0:
             return False
-        if self.head== self.tail:
-            self.head=self.tail= None
-        else:
-            self.head= self.head.next
-            self.tail.next= self.head
-        self.size-=1
+        self.curr.popleft()
         return True
-        
+
     def Front(self) -> int:
-        if self.isEmpty():
-            return -1
-        return self.head.val
+        return self.curr[0] if self.curr else -1
 
     def Rear(self) -> int:
-        if self.isEmpty():
-            return -1
-        return self.tail.val
+        return self.curr[-1] if self.curr else -1
 
     def isEmpty(self) -> bool:
-        return self.size==0
+        return len(self.curr)==0
 
     def isFull(self) -> bool:
-        return self.k==self.size
+        return len(self.curr)==self.k
 
 
 # Your MyCircularQueue object will be instantiated and called as such:
