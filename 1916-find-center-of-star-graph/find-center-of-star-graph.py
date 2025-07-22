@@ -1,13 +1,8 @@
 class Solution:
     def findCenter(self, edges: List[List[int]]) -> int:
-        newt = defaultdict(int)
-        for i,j in edges:
-            newt[i]+=1
-            newt[j]+=1
-        curr= newt[0]
-        res= 0
-        for i in newt:
-            if newt[i]>curr:
-                curr= newt[i]
-                res= i
-        return res
+        if edges[0][1]==edges[1][0] or edges[0][1]==edges[1][1]:
+            return edges[0][1]
+        # elif edges[0][0]==edges[1][1] or edges[0][0]==edges[1][0]:
+        return edges[0][0]
+
+
