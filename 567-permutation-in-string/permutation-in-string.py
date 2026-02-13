@@ -1,12 +1,22 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        cntr,w= Counter(s1),len(s1)
+        if len(s2)<len(s1):
+            return False
+
+        newt = defaultdict(int)
+        for i in s1:
+            newt[i]+=1
+
+        i=0
+        window = defaultdict(int)
         
-        for i in range(len(s2)):
-            if s2[i] in cntr:
-                cntr[s2[i]]-=1
-            if i>=w and s2[i-w] in cntr:
-                cntr[s2[i-w]]+=1
-            if all([cntr[i]==0 for i in cntr]):
+        for j in range(len(s2)):
+            window[s2[j]]+=1
+            if (j-i+1)> len(s1):
+                window[s2[i]]-=1
+                if window[s2[i]]==0:
+                    del window[s2[i]]
+                i+=1
+            if window== newt:
                 return True
         return False
