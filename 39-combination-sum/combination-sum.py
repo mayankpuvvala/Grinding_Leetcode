@@ -7,9 +7,9 @@ class Solution:
                 return
             elif i==len(candidates) or total>target:
                 return
-            subset.append(candidates[i])
-            backtrack(i, subset, total+candidates[i])
-            subset.pop()
-            backtrack(i+1, subset, total)
+            for idx in range(i, len(candidates)):
+                subset.append(candidates[idx])
+                backtrack(idx, subset, total+candidates[idx])
+                subset.pop()
         backtrack(0, [], 0)
         return res
