@@ -1,7 +1,7 @@
 class Solution:
     def pacificAtlantic(self, heights):
-        at= set()
-        pac= set()
+        atlantic= set()
+        pacific= set()
         rows,cols= len(heights), len(heights[0])
         def dfs(i,j,visited):
             visited.add((i,j))
@@ -10,11 +10,11 @@ class Solution:
                     dfs(x,y,visited)
         
         for i in range(rows):
-            dfs(i,0,pac)
-            dfs(i,cols-1,at)
+            dfs(i,0,pacific)
+            dfs(i,cols-1,atlantic)
         for j in range(cols):
-            dfs(0,j,pac)
-            dfs(rows-1,j,at)
+            dfs(0,j,pacific)
+            dfs(rows-1,j,atlantic)
 
-        return list(pac & at)
+        return list(pacific & atlantic)
                 
