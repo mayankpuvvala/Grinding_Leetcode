@@ -3,22 +3,25 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        row,col= len(board),len(board[0])
-        def capture(r,c):
-            if r<0 or r==row or c<0 or c==col or board[r][c]!="O":
+        def dfs(i,j):
+            if i<0 or i==rows or j<0 or j==cols or board[i][j]!="O":
                 return 
-            board[r][c]="T"
-            capture(r-1,c)
-            capture(r+1,c)
-            capture(r,c+1)
-            capture(r,c-1)
+            board[i][j]="T"
+            dfs(i+1, j)
+            dfs(i-1, j) 
+            dfs(i, j-1)
+            dfs(i, j+1)
 
-        for i in range(row):
-            for j in range(col):
-                if board[i][j]=="O" and (i in [0, row-1] or j in [0,col-1]):
-                    capture(i,j)
-        for i in range(row):
-            for j in range(col):
+        rows, cols = len(board), len(board[0])
+        for i in range(rows):
+            dfs(i,0)
+            dfs(i, cols-1)
+                
+        for j in range(cols):
+            dfs(0,j)
+            dfs(rows-1, j)
+        for i in range(rows):
+            for j in range(cols):
                 if board[i][j]=="O":
                     board[i][j]="X"
                 if board[i][j]=="T":
