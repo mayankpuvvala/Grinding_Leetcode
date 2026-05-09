@@ -1,34 +1,22 @@
 class Solution:
     def lemonadeChange(self, bills: List[int]) -> bool:
-        newt= []
+        five, ten = 0,0 
         for i in bills:
             if i==10:
-                if 5 in newt:
-                    newt.remove(5)
-                    newt.append(10)
-                else:
+                if not five:
                     return False
+                five-=1
+                ten+=1
             elif i==20:
-                if 10 in newt:
-                    newt.remove(10)
-                    if 5 in newt:
-                        newt.remove(5)
-                    else:
+                if ten:
+                    ten-=1
+                    if not five:
                         return False
-                elif 5 in newt:
-                    newt.remove(5)
-                    if 5 in newt:
-                        newt.remove(5)
-                        if 5 in newt:
-                            newt.remove(5)
-                        else:
-                            return False
-                    else:
-                        return False
+                    five-=1
+                elif five>2:
+                    five-=3
                 else:
                     return False
-                newt.append(20)
-                
             else:
-                newt.append(5)
+                five+=1
         return True
