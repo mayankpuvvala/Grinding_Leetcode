@@ -1,17 +1,17 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        if sum(nums)%2==1:
+        total = sum(nums)
+        if total%2!=0:
             return False
-        
-        dp= set()
-        dp.add(0)
-        target= sum(nums)//2
-
-        for i in range(len(nums)-1,-1,-1):
-            Nextdp= set()
-            for t in dp:
-                Nextdp.add(t+nums[i])
-                Nextdp.add(t)
-
-            dp= Nextdp
-        return True if target in dp else False
+        target = total//2
+        cache= {}
+        def dfs(i, sumi):
+            if (i, sumi) in cache:
+                return cache[(i, sumi)]
+            if sumi==target:
+                return True
+            if i==len(nums) or sumi>target:
+                return False
+            cache[(i,sumi)]= dfs(i+1, sumi+nums[i]) or dfs(i+1, sumi)
+            return cache[(i, sumi)]
+        return dfs(0,0)
