@@ -1,17 +1,32 @@
 class MyHashMap:
 
     def __init__(self):
-        self.newt= [-5]*(10**6+1)
+        self.size= 1000
+        self.newt= [[] for _ in range(self.size)]
 
     def put(self, key: int, value: int) -> None:
-        self.newt[key] = value
-
+        if self.newt[key%self.size]:
+            for idx, (i,j) in enumerate(self.newt[key%self.size]):
+                if i==key:
+                    self.newt[key%self.size][idx]= [key, value]
+                    return
+                
+        self.newt[key%self.size].append([key, value])
 
     def get(self, key: int) -> int:
-        return self.newt[key] if self.newt[key]!=-5 else -1
+        if self.newt[key%self.size]:
+            for i,j in self.newt[key%self.size]:
+                if i==key:
+                    return j
+        return -1
 
     def remove(self, key: int) -> None:
-        self.newt[key] = -5
+        for idx,(i,j) in enumerate(self.newt[key%self.size]):
+            if i==key:
+                self.newt[key%self.size].remove([i,j])
+                print(self.newt[key%self.size])
+                return
+        return 
 
 
 # Your MyHashMap object will be instantiated and called as such:
