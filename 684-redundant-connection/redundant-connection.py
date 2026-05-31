@@ -1,16 +1,13 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        root = list(range(len(edges) + 1)) 
-
-        def find_root(node):
-            if root[node] != node:
-                root[node] = find_root(root[node])  
-            return root[node] 
-
-        for node1, node2 in edges: 
-            root1, root2 = find_root(node1), find_root(node2)
-
-            if root1 == root2:
-                return [node1, node2]  
- 
-            root[root2] = root1             
+        t= [i for i in range(len(edges)+1)]
+        
+        for i,j in edges:
+            if t[i]==t[j]:
+                return [i,j]
+            temp = t[i]
+            for idx in range(len(t)):
+                if t[idx]==temp:
+                    t[idx]= t[j]
+        return -1
+        # uses the concept of using char's wrt indices, and this temp gets the original value instead of the updated value in the 2nd if
