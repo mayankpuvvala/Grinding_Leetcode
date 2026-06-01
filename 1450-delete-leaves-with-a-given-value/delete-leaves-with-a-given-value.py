@@ -11,12 +11,12 @@ class Solution:
         self.target= target
         def dfs(node):
             if not node:
-                return
+                return 
             node.left= dfs(node.left)
             node.right= dfs(node.right)
             if not node.left and not node.right:
-                if node.val==self.target:
-                    return None
+                if node.val == self.target:
+                    return 
             return node
         
         return dfs(root)
