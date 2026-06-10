@@ -1,31 +1,29 @@
 class Solution:
     def findAllRecipes(self, recipes: List[str], ingredients: List[List[str]], supplies: List[str]) -> List[str]:
-        available = set(supplies)
-        made = set()
-
-        changed = True
-
-        while changed:
-            changed = False
-
-            # forward
-            for i in range(len(recipes)):
-                if recipes[i] in made:
+        supplies = set(supplies)
+        canCook= set()
+        visited = set()
+        newt = {r:i for i,r in enumerate(recipes)}
+        def dfs(i):
+            if i in canCook:
+                return True
+            if i in visited:
+                return False
+            visited.add(i)
+            for j in ingredients[i]:
+                if j in supplies:
                     continue
+                if j in newt:
+                    if not dfs(newt[j]):
+                        visited.remove(i)
+                        return False
+                else:
+                    visited.remove(i)
+                    return False
 
-                if all(x in available for x in ingredients[i]):
-                    available.add(recipes[i])
-                    made.add(recipes[i])
-                    changed = True
-
-            # backward
-            for i in range(len(recipes) - 1, -1, -1):
-                if recipes[i] in made:
-                    continue
-
-                if all(x in available for x in ingredients[i]):
-                    available.add(recipes[i])
-                    made.add(recipes[i])
-                    changed = True
-
-        return list(made)
+            canCook.add(i)
+            visited.remove(i)
+            return True
+            
+        return [recipes[i] for i in range(len(recipes)) if dfs(i)]
+        
