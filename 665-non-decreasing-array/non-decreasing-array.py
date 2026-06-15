@@ -1,9 +1,15 @@
 class Solution:
-    def checkPossibility(self, N: List[int]) -> bool:
-        err = 0
-        for i in range(1, len(N)):
-            if N[i] < N[i-1]:
-                if err or (i > 1 and i < len(N) - 1 and N[i-2] > N[i] and N[i+1] < N[i-1]):
+    def checkPossibility(self, nums: List[int]) -> bool:
+        #[3,4,2] or [1,4,3,6] or [4,2]
+        changed= False
+        for i in range(len(nums)-1):
+            if nums[i]>nums[i+1]:
+                if changed:
                     return False
-                err = 1
+                if i==0 or nums[i+1]>=nums[i-1]:
+                    nums[i]= nums[i+1]
+                else:
+                    nums[i+1]= nums[i]
+                changed= True
         return True
+
